@@ -1,0 +1,15 @@
+---
+backup_mountpoint: /backup
+# The backup cluster defaults to the instance name. 
+# Reset this to cluster_name if you have to.
+backup_cluster: "{{ec2_tag_Name}}"
+backup_bucket: "{{ krell_backup_bucket }}"
+backup_root_directory: "{{backup_mountpoint}}/instances"
+backup_instance_directory: "{{backup_root_directory}}/{{backup_cluster}}"
+backup_s3_cluster: "clusters/{{backup_cluster}}"
+backup_user: "{{ krell_sash_user }}"
+backup_group: "{{ krell_sash_user }}"
+backup_common_linkpoint: /backup-point
+
+# This may be either 's3' or 'gluster'.
+backup_fs_type: s3

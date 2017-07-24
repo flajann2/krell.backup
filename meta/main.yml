@@ -1,0 +1,29 @@
+---
+dependencies:
+  - { role: krell.common.backup  } # used to be krell.s3.backup
+  
+  - { role: krell.s3fs,
+      when: backup_fs_type == 's3',
+      ansible_user_id: "{{ krell_sash_user }}",
+      s3fs: {
+        buckets: [{
+        mountpoint: "{{ backup_mountpoint }}",
+        bucket: "{{ backup_bucket }}",
+        accessKeyId: "{{ krell_access_key }}",
+        secretAccessKey: "{{ krell_secret_key }}",
+        options: 'rw,noexec,async,allow_other'
+        }]
+      }
+    }
+    
+  - { role: krell.gluster.client,
+      when: backup_fs_type == 'gluster',
+      ansible_user_id: "{{ krell_sash_user }}",
+      glusterfs: {
+        mountpoint: "{{ backup_mountpoint }}",
+        bucket: "{{ backup_bucket }}",
+        options: 'defaults,rw,async',
+        owner: "{{ backup_user }}",
+        group: "{{ backup_group }}"
+      }
+    }

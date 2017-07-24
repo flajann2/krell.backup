@@ -1,0 +1,11 @@
+---
+- debug:
+    msg: "Backup Filesystem Type is {{backup_fs_type}}"
+
+- include: s3.yml
+  when: backup_fs_type == 's3'
+
+- include: gluster.yml
+  when: backup_fs_type == 'gluster'
+
+- include: common.yml

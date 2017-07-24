@@ -1,0 +1,31 @@
+* Krell Backup
+  Call this role from your roles.
+  This is more a "meta" role to invoke
+  other roles to set up S3 backups for
+  your AWS instances.
+
+  This will create -- if not there -- a special
+  backup folder
+
+** Documentation
+   backup_fs_type can either be 's3' or 'gluster'. 
+   's3' is the default.
+
+** Issues
+*** Fuse / s3fs
+    Fuse / s3fs only appears to want to work
+    for one user. This is annoying, and so we
+    have to do some additional machinations to
+    allow for this case. In normal usage, this
+    is fine. Just makes it more annoying to setup 
+    and debug.
+    
+    Also, to unmount the mount point, one must do so
+    by doing a "umount -l /backup", as the normal
+    script stoppage appears not to work reliably.
+    It may have to do with being tied to the user
+    who created the mount in the first place, but
+    will have to investigate later.
+*** Fuse / Gluster
+    We'll let you know.
+

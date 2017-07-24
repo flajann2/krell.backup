@@ -1,0 +1,14 @@
+---
+# Manage the space and create the directory the instance will use.
+- name: s3 | unmount the point so we can mount it again with the correct setup
+  shell: umount -l "{{ backup_mountpoint }}"
+  ignore_errors: yes
+
+- name: s3 | ensure that s3fs daemon is running
+  shell: service s3fs start
+  become: yes
+  become_user: "{{ backup_user }}"
+  register: sres
+
+- debug:
+    msg: "we backup to {{ backup_instance_directory }} rc {{ sres }} "

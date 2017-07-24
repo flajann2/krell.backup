@@ -1,0 +1,23 @@
+---
+- name: common | assure the existence of backup_user
+  user:
+    name:  "{{ backup_user }}"
+    group:  "{{ backup_user }}"
+    state: present
+
+- name: common | setup backup directory
+  file:
+    path: "{{ backup_instance_directory }}"
+    state: directory
+    owner: "{{ backup_user }}"
+    group: "{{ backup_group }}"
+    recurse: yes
+  ignore_errors: false
+  become: yes
+  #become_user: "{{ backup_user }}"
+
+- name: common | make a common link to the specific instance dir
+  file:
+    src: "{{ backup_instance_directory }}"
+    dest: "{{ backup_common_linkpoint }}"
+    state: link
